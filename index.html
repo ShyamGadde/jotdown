@@ -18,6 +18,11 @@
 
       const editor = document.getElementById("editor");
 
+      // Disable browser context menu in the editor
+      editor.addEventListener("contextmenu", (event) => {
+        event.preventDefault();
+      });
+
       editor.addEventListener("keyup", (event) => {
         if (event.key === " " || event.key === "Enter") {
           console.log(editor.innerText.trim().split(" "));
