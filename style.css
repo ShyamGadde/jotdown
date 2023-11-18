@@ -109,3 +109,27 @@ textarea:not([rows]) {
 .incorrect {
   text-decoration: wavy red underline;
 }
+
+.suggestion-menu {
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  z-index: 1;
+  padding: 0 5px;
+  min-width: 100px;
+  font-family: "Recursive";
+  font-size: 14px;
+}
+
+.suggestion-menu-item {
+  cursor: pointer;
+  padding-left: 20px;
+  margin: 5px 0;
+  border-radius: 3px;
+}
+
+.suggestion-menu-item:hover {
+  background-color: #eee;
+}

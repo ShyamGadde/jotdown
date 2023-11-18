@@ -18,24 +18,53 @@
 
       const editor = document.getElementById("editor");
 
-      // Disable browser context menu in the editor
       editor.addEventListener("contextmenu", (event) => {
         event.preventDefault();
+
+        if (event.target.classList.contains("incorrect")) {
+          const incorrectWord = event.target.textContent;
+          const suggestions = JSON.parse(event.target.dataset.suggestions);
+
+          const menu = document.createElement("div");
+          menu.classList.add("suggestion-menu");
+          menu.style.left = `${event.pageX}px`;
+          menu.style.top = `${event.pageY}px`;
+
+          suggestions.forEach((suggestion) => {
+            const item = document.createElement("div");
+            item.classList.add("suggestion-menu-item");
+            item.textContent = suggestion;
+            item.addEventListener("click", () => {
+              event.target.textContent = suggestion;
+              event.target.classList.remove("incorrect");
+              menu.remove();
+            });
+            menu.appendChild(item);
+          });
+
+          document.body.appendChild(menu);
+
+          document.addEventListener("click", () => menu.remove(), {
+            once: true,
+          });
+        }
       });
 
       editor.addEventListener("keyup", (event) => {
         if (event.key === " " || event.key === "Enter") {
-          console.log(editor.innerText.trim().split(" "));
           editor.innerHTML =
             editor.innerText
               .trim()
               .replace(/\u00a0/g, " ")
               .split(" ")
-              .map((word) =>
-                spellChecker.check(word).isValid
+              .map((word) => {
+                const { isValid, suggestions } = spellChecker.check(word);
+                return isValid
                   ? word
-                  : `<span class="incorrect">${word}</span>`
-              )
+                  : `<span data-suggestions=${JSON.stringify(
+                      suggestions
+                    )} class="incorrect">${word}</span>`;
+              })
               .join(" ") + "&nbsp;";
 
           // Move the cursor to the end of the text
