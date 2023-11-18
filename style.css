@@ -114,6 +114,11 @@ body {
   color: lightgray;
 }
 
+#editor:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(128, 128, 128, 0.5) inset;
+}
+
 .incorrect {
   text-decoration: wavy red underline;
 }
