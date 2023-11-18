@@ -97,21 +97,44 @@ textarea:not([rows]) {
 /* Custom CSS */
 /* ========== */
 
+:root {
+  --background-color: white;
+  --text-color: black;
+  --placeholder-color: rgba(0, 0, 0, 0.5);
+  --selection-menu-color: white;
+  --menu-hover-item-color: #eee;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #282c34; /* Atom One Dark background color */
+    --text-color: #abb2bf; /* Atom One Dark text color */
+    --placeholder-color: rgba(171, 178, 191, 0.5);
+    --selection-menu-color: rgb(36, 36, 36, 0.7);
+    --menu-hover-item-color: rgba(86, 84, 84, 0.7);
+  }
+}
+
 body {
   font-family: "Recursive", monospace;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 #editor {
+  background-color: var(--background-color);
+  color: var(--text-color);
   width: 70%;
   min-height: 80vh;
   padding: 20px;
   border: 1px solid #ccc;
+  border-radius: 3px;
   font-family: "Recursive";
 }
 
 #editor:empty::before {
   content: "Start typing...";
-  color: lightgray;
+  color: var(--placeholder-color);
 }
 
 #editor:focus {
@@ -125,22 +148,24 @@ body {
 
 .suggestion-menu {
   position: absolute;
-  background-color: #fff;
+  background-color: var(--selection-menu-color);
   border: 1px solid #ccc;
   border-radius: 5px;
-  padding: 5px;
+  padding: 2px 5px 2px;
   z-index: 1;
-  padding: 0 10px;
   min-width: 100px;
   font-size: 14px;
 }
 
 .suggestion-menu-item {
   cursor: pointer;
-  padding-left: 15px;
-  padding-right: 10px;
-  margin: 5px 0;
+  padding: 3px 10px 3px 15px;
+  margin: 1px 0;
   border-radius: 3px;
+}
+
+.suggestion-menu-item:first-child {
+  margin-top: 7px;
 }
 
 .suggestion-menu-item:last-child {
@@ -148,10 +173,11 @@ body {
   padding-top: 5px;
   padding-bottom: 5px;
   margin-top: 5px;
+  margin-bottom: 7px;
 }
 
 .suggestion-menu-item:hover {
-  background-color: #eee;
+  background-color: var(--menu-hover-item-color);
 }
 
 .disabled {
@@ -160,7 +186,6 @@ body {
 }
 
 header {
-  background-color: #fff;
   padding: 20px;
   border-bottom: 1px solid #ccc;
   display: flex;
