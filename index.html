@@ -20,9 +20,11 @@
 
       editor.addEventListener("keyup", (event) => {
         if (event.key === " " || event.key === "Enter") {
+          console.log(editor.innerText.trim().split(" "));
           editor.innerHTML =
             editor.innerText
               .trim()
+              .replace(/\u00a0/g, " ")
               .split(" ")
               .map((word) =>
                 spellChecker.check(word).isValid
@@ -33,8 +35,8 @@
 
           // Move the cursor to the end of the text
           const range = document.createRange();
-          range.selectNodeContents(editor);
-          range.collapse(false);
+          range.setStartAfter(editor.lastChild);
+          range.collapse(true);
           const selection = window.getSelection();
           selection.removeAllRanges();
           selection.addRange(range);
