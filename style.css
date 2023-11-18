@@ -116,7 +116,7 @@ body {
 
 #editor:focus {
   outline: none;
-  box-shadow: 0 0 5px rgba(128, 128, 128, 0.5) inset;
+  box-shadow: 0 0 3px rgba(128, 128, 128, 0.5) inset;
 }
 
 .incorrect {
