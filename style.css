@@ -105,6 +105,11 @@ textarea:not([rows]) {
   font-family: "Recursive";
 }
 
+#editor:empty::before {
+  content: "Start typing...";
+  color: lightgray;
+}
+
 .incorrect {
   text-decoration: wavy red underline;
 }
