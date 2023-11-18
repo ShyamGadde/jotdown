@@ -97,6 +97,10 @@ textarea:not([rows]) {
 /* Custom CSS */
 /* ========== */
 
+body {
+  font-family: "Recursive", monospace;
+}
+
 #editor {
   width: 70%;
   min-height: 80vh;
@@ -123,7 +127,6 @@ textarea:not([rows]) {
   z-index: 1;
   padding: 0 5px;
   min-width: 100px;
-  font-family: "Recursive";
   font-size: 14px;
 }
 
@@ -146,5 +149,13 @@ header {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+header h1 {
+  margin: 0;
+  font-weight: 800;
+}
+
+header h1::before {
+  content: "📝";
 }
