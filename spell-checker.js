@@ -99,9 +99,7 @@ export class SpellChecker {
  * @returns {Promise<string[]>} - A promise that resolves to an array of words from the dictionary.
  */
 async function loadWordsFrom(dictionary) {
-  const response = await fetch(
-    `https://raw.githubusercontent.com/dolph/dictionary/master/${dictionary}.txt`
-  );
+  const response = await fetch(`dictionaries/${dictionary}.txt`);
   const data = await response.text();
   return data.split("\n");
 }
