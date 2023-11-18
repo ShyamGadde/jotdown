@@ -76,6 +76,14 @@
           menu.style.left = `${event.pageX}px`;
           menu.style.top = `${event.pageY}px`;
 
+          if (!suggestions.length) {
+            const item = document.createElement("div");
+            item.classList.add("suggestion-menu-item");
+            item.classList.add("disabled");
+            item.textContent = "No suggestions available...";
+            menu.appendChild(item);
+          }
+
           suggestions.forEach((suggestion) => {
             const item = document.createElement("div");
             item.classList.add("suggestion-menu-item");
