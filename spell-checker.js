@@ -175,6 +175,14 @@ function damerauLevenshteinDistance(s, t, maxDistance = 2) {
   return previousRow[m];
 }
 
+/**
+ * Retrieves spelling suggestions for a given word based on a prefix tree node.
+ * @param {string} word - The word to find suggestions for.
+ * @param {object} node - The prefix tree node to start the search from.
+ * @param {string} [prefix=""] - The prefix string formed by traversing the prefix tree.
+ * @param {number} [distance=2] - The maximum allowed edit distance between the word and suggestions.
+ * @returns {Array} An array of spelling suggestions, each containing the suggested word and its edit distance from the original word.
+ */
 function getSuggestions(word, node, prefix = "", distance = 2) {
   let suggestions = [];
 
@@ -204,7 +212,3 @@ function getSuggestions(word, node, prefix = "", distance = 2) {
 
   return suggestions;
 }
-
-// let dictionary = "popular";
-// let spellChecker = await SpellChecker.createFrom(dictionary);
-// console.log(spellChecker.check("widl"));
