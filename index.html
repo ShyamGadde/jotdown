@@ -27,6 +27,43 @@
 
       const editor = document.getElementById("editor");
 
+      function checkSpellingAndMoveCursor() {
+        const trailingCharacter = "&nbsp;";
+        editor.innerHTML =
+          editor.innerText
+            .trim()
+            .replace(/\u00a0/g, " ")
+            .split(" ")
+            .map((word) => {
+              if (!/^[a-zA-Z]+$/.test(word)) {
+                return word;
+              }
+
+              const { isValid, suggestions } = spellChecker.check(word);
+              return isValid
+                ? word
+                : `<span data-suggestions=${JSON.stringify(
+                    suggestions
+                  )} class="incorrect">${word}</span>`;
+            })
+            .join(" ") + trailingCharacter;
+
+        // Move the cursor to the end of the text
+        const range = document.createRange();
+        range.setStartAfter(editor.lastChild);
+        range.collapse(true);
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+      }
+
+      editor.addEventListener("keyup", (event) => {
+        if (event.key === " " || event.key === "Enter") {
+          event.preventDefault();
+          checkSpellingAndMoveCursor();
+        }
+      });
+
       editor.addEventListener("contextmenu", (event) => {
         event.preventDefault();
 
@@ -56,40 +93,6 @@
           document.addEventListener("click", () => menu.remove(), {
             once: true,
           });
-        }
-      });
-
-      editor.addEventListener("keyup", (event) => {
-        if (event.key === " " || event.key === "Enter") {
-          event.preventDefault();
-
-          let trailingCharacter = event.key === " " ? "&nbsp;" : "<br/>&nbsp;";
-          editor.innerHTML =
-            editor.innerText
-              .trim()
-              .replace(/\u00a0/g, " ")
-              .split(" ")
-              .map((word) => {
-                if (!/^[a-zA-Z]+$/.test(word)) {
-                  return word;
-                }
-
-                const { isValid, suggestions } = spellChecker.check(word);
-                return isValid
-                  ? word
-                  : `<span data-suggestions=${JSON.stringify(
-                      suggestions
-                    )} class="incorrect">${word}</span>`;
-              })
-              .join(" ") + trailingCharacter;
-
-          // Move the cursor to the end of the text
-          const range = document.createRange();
-          range.setStartAfter(editor.lastChild);
-          range.collapse(true);
-          const selection = window.getSelection();
-          selection.removeAllRanges();
-          selection.addRange(range);
         }
       });
     </script>
