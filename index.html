@@ -27,7 +27,7 @@
 
       const editor = document.getElementById("editor");
 
-      function checkSpellingAndMoveCursor() {
+      function checkSpelling() {
         const trailingCharacter = "&nbsp;";
         editor.innerHTML =
           editor.innerText
@@ -47,8 +47,9 @@
                   )} class="incorrect">${word}</span>`;
             })
             .join(" ") + trailingCharacter;
+      }
 
-        // Move the cursor to the end of the text
+      function moveCursorToEnd() {
         const range = document.createRange();
         range.setStartAfter(editor.lastChild);
         range.collapse(true);
@@ -60,7 +61,8 @@
       editor.addEventListener("keyup", (event) => {
         if (event.key === " " || event.key === "Enter") {
           event.preventDefault();
-          checkSpellingAndMoveCursor();
+          checkSpelling();
+          moveCursorToEnd();
         }
       });
 
@@ -95,6 +97,16 @@
             });
             menu.appendChild(item);
           });
+
+          const item = document.createElement("div");
+          item.classList.add("suggestion-menu-item");
+          item.textContent = "Add to dictionary";
+          item.addEventListener("click", () => {
+            spellChecker.addWordToDictionary(incorrectWord);
+            checkSpelling();
+            menu.remove();
+          });
+          menu.appendChild(item);
 
           document.body.appendChild(menu);
 

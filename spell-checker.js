@@ -131,6 +131,14 @@ export class SpellChecker {
       ),
     };
   }
+
+  /**
+   * Adds a word to the dictionary.
+   * @param {string} word - The word to be added to the dictionary.
+   */
+  addWordToDictionary(word) {
+    this.trie.insert(word);
+  }
 }
 
 /**
