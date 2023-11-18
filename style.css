@@ -98,9 +98,8 @@ textarea:not([rows]) {
 /* ========== */
 
 #editor {
-  width: 80%;
-  min-height: 600px;
-  margin: auto;
+  width: 70%;
+  min-height: 80vh;
   padding: 20px;
   border: 1px solid #ccc;
   font-family: "Recursive";
@@ -132,4 +131,15 @@ textarea:not([rows]) {
 
 .suggestion-menu-item:hover {
   background-color: #eee;
+}
+
+header {
+  background-color: #fff;
+  padding: 20px;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
