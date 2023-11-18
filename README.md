@@ -1,2 +1,3 @@
-# jotdown
-A ______ with spellchecking, autocorrect and autocomplete features.
+# JotDown
+
+A **\_\_** with spellchecking, autocorrect and autocomplete features.
