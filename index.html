@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JotDown</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="editor" contenteditable="true" spellcheck="false"></div>
+
+    <script type="module">
+      import { SpellChecker } from "./spell-checker.js";
+
+      let dictionary = "popular";
+      const spellChecker = await SpellChecker.createFrom(dictionary);
+
+      const editor = document.getElementById("editor");
+
+      editor.addEventListener("keyup", (event) => {
+        if (event.key === " " || event.key === "Enter") {
+          editor.innerHTML =
+            editor.innerText
+              .trim()
+              .split(" ")
+              .map((word) =>
+                spellChecker.check(word).isValid
+                  ? word
+                  : `<span class="incorrect">${word}</span>`
+              )
+              .join(" ") + "&nbsp;";
+
+          // Move the cursor to the end of the text
+          const range = document.createRange();
+          range.selectNodeContents(editor);
+          range.collapse(false);
+          const selection = window.getSelection();
+          selection.removeAllRanges();
+          selection.addRange(range);
+        }
+      });
+    </script>
+  </body>
+</html>
