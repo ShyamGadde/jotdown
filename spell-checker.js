@@ -75,6 +75,46 @@ export class SpellChecker {
   }
 
   /**
+   * Retrieves suggestions for a given word based on a trie data structure.
+   * @param {string} word - The word to find suggestions for.
+   * @param {TrieNode} [node=this.trie.root] - The current node in the trie (default: root node).
+   * @param {string} [prefix=""] - The prefix formed by traversing the trie (default: empty string).
+   * @param {number} [distance=2] - The maximum allowed distance between the word and suggestions (default: 2).
+   * @returns {Array} - An array of suggestion objects containing the suggested word and its distance from the input word.
+   */
+  getSuggestions(word, node = this.trie.root, prefix = "", distance = 2) {
+    let suggestions = [];
+
+    if (
+      node.isEndOfWord &&
+      damerauLevenshteinDistance(word, prefix, distance) <= distance
+    ) {
+      suggestions.push({
+        word: prefix,
+        distance: damerauLevenshteinDistance(word, prefix),
+      });
+    }
+
+    for (let letter in node.children) {
+      suggestions = suggestions.concat(
+        this.getSuggestions(
+          word,
+          node.children[letter],
+          prefix + letter,
+          distance
+        )
+      );
+    }
+
+    // Sort suggestions by distance, then by length
+    suggestions.sort(
+      (a, b) => a.distance - b.distance || a.word.length - b.word.length
+    );
+
+    return suggestions.slice(0, 6);
+  }
+
+  /**
    * Checks if a word is valid based on the Trie data structure.
    * @param {string} word - The word to be checked.
    * @returns {object} - An object containing the validity of the word and suggestions if it is invalid.
@@ -86,7 +126,7 @@ export class SpellChecker {
 
     return {
       isValid: false,
-      suggestions: getSuggestions(word, this.trie.root).map(
+      suggestions: this.getSuggestions(word).map(
         (suggestion) => suggestion.word
       ),
     };
@@ -173,42 +213,4 @@ function damerauLevenshteinDistance(s, t, maxDistance = 2) {
     currentRow[0] = inf;
   }
   return previousRow[m];
-}
-
-/**
- * Retrieves spelling suggestions for a given word based on a prefix tree node.
- * @param {string} word - The word to find suggestions for.
- * @param {object} node - The prefix tree node to start the search from.
- * @param {string} [prefix=""] - The prefix string formed by traversing the prefix tree.
- * @param {number} [distance=2] - The maximum allowed edit distance between the word and suggestions.
- * @returns {Array} An array of spelling suggestions, each containing the suggested word and its edit distance from the original word.
- */
-function getSuggestions(word, node, prefix = "", distance = 2) {
-  let suggestions = [];
-
-  if (
-    node.isEndOfWord &&
-    damerauLevenshteinDistance(word, prefix, distance) <= distance
-  ) {
-    suggestions.push({
-      word: prefix,
-      distance: damerauLevenshteinDistance(word, prefix),
-    });
-  }
-
-  for (let letter in node.children) {
-    suggestions = suggestions.concat(
-      getSuggestions(word, node.children[letter], prefix + letter, distance)
-    );
-  }
-
-  // Sort suggestions by distance, then by length
-  suggestions.sort(
-    (a, b) => a.distance - b.distance || a.word.length - b.word.length
-  );
-
-  // Limit the number of suggestions
-  suggestions = suggestions.slice(0, 6);
-
-  return suggestions;
 }
