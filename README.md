@@ -1,6 +1,6 @@
 # JotDown
 
-A basic text editor with spellchecking, autocorrect and autocomplete features.
+A simple text editor with spellchecking, autocorrect and autocomplete features.
 
 
 
