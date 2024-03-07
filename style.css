@@ -105,6 +105,7 @@ textarea:not([rows]) {
   --menu-hover-item-color: #eee;
 }
 
+/* 
 @media (prefers-color-scheme: dark) {
   :root {
     --background-color: #282c34; /* Atom One Dark background color */
@@ -113,7 +114,8 @@ textarea:not([rows]) {
     --selection-menu-color: rgb(36, 36, 36, 0.7);
     --menu-hover-item-color: rgba(86, 84, 84, 0.7);
   }
-}
+} 
+*/
 
 body {
   font-family: "Recursive", monospace;
